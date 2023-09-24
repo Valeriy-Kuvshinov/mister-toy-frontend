@@ -1,0 +1,40 @@
+.toy-card {
+    background: radial-gradient(circle at center, #83f480, #006df9);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    max-width: 200px;
+}
+
+.toy-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.toy-card h3 {
+    font-size: 1.2em;
+    color: rgb(11, 7, 55);
+    display: inline;
+}
+
+.toy-card p {
+    color: #08390e;
+    margin-top: 1em;
+    font-weight: bold;
+}
+
+.toy-card-actions {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.toy-image {
+    height: 150px;
+    border-radius: 30px;
+}
+
+.toy-card button {
+    margin-top: 1em;
+}
