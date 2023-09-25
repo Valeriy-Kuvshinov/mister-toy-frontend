@@ -33,6 +33,7 @@
 .toy-image {
     height: 150px;
     border-radius: 30px;
+    width: 100%;
 }
 
 .toy-card button {

@@ -19,9 +19,6 @@ export function ToyIndex() {
 
     function onDelete(toyId) {
         removeToy(toyId)
-            .then(() => {
-                console.log('Toy removed successfully')
-            })
             .catch(err => {
                 console.log('Cant remove toy, try again.', err)
             })

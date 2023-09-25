@@ -7,6 +7,16 @@ import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { toyService } from '../services/toy.service.js'
 ChartJS.register(ArcElement, CategoryScale, LineController, LinearScale
     , LineElement, PointElement, BarElement, Tooltip, Legend)
+import Accordion from '@mui/material/Accordion'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import Typography from '@mui/material/Typography'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { styled } from '@mui/material/styles'
+
+const NoPaddingAccordionDetails = styled(AccordionDetails)({
+    padding: 0,
+})
 
 export function DashboardPage() {
     const [labelPrices, setLabelPrices] = useState({})
@@ -70,39 +80,60 @@ export function DashboardPage() {
                 <h1>Welcome dear manager!</h1>
                 <h2>Here is our most updated business performance:</h2>
             </div>
-            <h3>Current average price per label</h3>
-            <Bar
-                data={{
-                    labels: Object.keys(labelPrices),
-                    datasets: [{
-                        label: 'Average Price',
-                        data: Object.values(labelPrices),
-                        backgroundColor: '#42a5f5',
-                    }]
-                }}
-            />
-            <h3>Current amount of toys in-stock per label</h3>
-            <Doughnut
-                data={{
-                    labels: Object.keys(inventoryByLabel),
-                    datasets: [{
-                        data: Object.values(inventoryByLabel).map(labelData => labelData.inStock),
-                        backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#c45850', '#8e5ea2', '#3cba9f', '#e8c3b9'],
-                    }]
-                }}
-            />
-            <h3>Weekly overall toy sales</h3>
-            <Line
-                data={{
-                    labels: lineChartData.dates,
-                    datasets: [{
-                        label: 'Random Data',
-                        data: lineChartData.values,
-                        borderColor: '#3e95cd',
-                        fill: false,
-                    }]
-                }}
-            />
+
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Current average price per label</Typography>
+                </AccordionSummary>
+                <NoPaddingAccordionDetails>
+                    <Bar
+                        data={{
+                            labels: Object.keys(labelPrices),
+                            datasets: [{
+                                label: 'Average Price',
+                                data: Object.values(labelPrices),
+                                backgroundColor: '#42a5f5',
+                            }]
+                        }}
+                    />
+                </NoPaddingAccordionDetails>
+            </Accordion>
+
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Current amount of toys in-stock per label</Typography>
+                </AccordionSummary>
+                <NoPaddingAccordionDetails>
+                    <Doughnut
+                        data={{
+                            labels: Object.keys(inventoryByLabel),
+                            datasets: [{
+                                data: Object.values(inventoryByLabel).map(labelData => labelData.inStock),
+                                backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#c45850', '#8e5ea2', '#3cba9f', '#e8c3b9'],
+                            }]
+                        }}
+                    />
+                </NoPaddingAccordionDetails>
+            </Accordion>
+
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Weekly overall toy sales</Typography>
+                </AccordionSummary>
+                <NoPaddingAccordionDetails>
+                    <Line
+                        data={{
+                            labels: lineChartData.dates,
+                            datasets: [{
+                                label: 'Random Data',
+                                data: lineChartData.values,
+                                borderColor: '#3e95cd',
+                                fill: false,
+                            }]
+                        }}
+                    />
+                </NoPaddingAccordionDetails>
+            </Accordion>
         </main>
     )
 }

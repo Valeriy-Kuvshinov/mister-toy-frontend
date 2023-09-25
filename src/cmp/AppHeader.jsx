@@ -33,7 +33,7 @@ export function AppHeader() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/toy/edit/new">
+                        <Link to="/login">
                             Login
                         </Link>
                     </li>

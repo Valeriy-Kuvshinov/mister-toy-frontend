@@ -28,7 +28,8 @@ export function ToyEdit() {
 
     const handleChange = (e) => {
         const { name, value } = e.target
-        setToy({ ...toy, [name]: value })
+        const updatedValue = name === 'price' ? +value : value
+        setToy({ ...toy, [name]: updatedValue })
     }
 
     const handleLabelChange = (e) => {

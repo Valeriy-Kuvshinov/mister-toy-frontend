@@ -10,6 +10,7 @@ import { AppHeader } from './cmp/AppHeader.jsx'
 import { ToyEdit } from './pages/ToyEdit.jsx'
 import { AboutPage } from './pages/AboutPage.jsx'
 import { DashboardPage } from './pages/DashboardPage.jsx'
+import { LoginPage } from './pages/LoginPage.jsx'
 
 export function App() {
   return (
@@ -26,6 +27,7 @@ export function App() {
               <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
               <Route element={<ToyEdit />} path="/toy/edit" />
               <Route element={<ToyDetails />} path="/toy/:toyId" />
+              <Route element={<LoginPage />} path="/login" />
             </Routes>
           </main>
         </section>

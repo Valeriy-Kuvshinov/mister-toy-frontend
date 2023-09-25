@@ -1,0 +1,33 @@
+.login-page {
+    background: radial-gradient(circle at center, #bfeea9, #36f);
+    min-height: 100vh;
+    display: flex;
+}
+
+.login-page form {
+    width: 400px;
+    margin: auto;
+    padding: 1em;
+    background: #92f09d;
+    border-radius: 5px;
+}
+
+.login-page form div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-page .name-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-direction: row;
+}
+
+.login-page form div>div:last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
