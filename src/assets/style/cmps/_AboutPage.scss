@@ -1,0 +1,109 @@
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: $fontClr;
+    font-family: Arial, Helvetica, sans-serif;
+    background: radial-gradient(circle at center, $bgClr3, $bgClr4);
+
+    h1 {
+        font-size: 3em;
+        margin: auto;
+        text-align: center;
+    }
+
+    .about-hero {
+        padding: 30px;
+        text-align: center;
+        margin-bottom: -1em;
+
+        &-imgs {
+            display: flex;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                border-radius: 50%;
+                max-width: 225px;
+            }
+        }
+
+        p {
+            font-size: 1.5em;
+        }
+    }
+
+    .about-story,
+    .about-branches,
+    .about-contact {
+        margin-top: 20px;
+        padding: 25px;
+        background: radial-gradient(circle at center, $bgClr7, $bgClr8);
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+        h2 {
+            font-size: 2.2em;
+            margin-bottom: 25px;
+        }
+    }
+
+    .branch-item {
+        display: flex;
+        align-items: center;
+
+        button {
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .about-contact {
+        display: flex;
+        flex-direction: column;
+
+        a {
+            color: $infoClr5;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: $infoClr6;
+            }
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 1.2em;
+        }
+
+        .contact-method {
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            i {
+                color: $infoClr5;
+                font-size: 1.5em;
+                transition: color 0.3s ease;
+            }
+
+            a {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+
+                &:hover i {
+                    color: $infoClr6;
+                }
+            }
+        }
+    }
+}

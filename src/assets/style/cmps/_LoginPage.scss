@@ -1,0 +1,51 @@
+.login-page {
+    background: radial-gradient(circle at center, $bgClr3, $bgClr4);
+    min-height: 100vh;
+
+    form {
+        width: 400px;
+        margin: auto;
+        padding: 2em;
+        background: linear-gradient(to bottom, $bgClr0, $bgClr7);
+        border-radius: 25px;
+
+        div {
+            gap: 10px;
+
+            &>div:last-child {
+                justify-content: space-between;
+                align-items: center;
+
+                button {
+                    border-radius: 10px;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .name-container {
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .MuiOutlinedInput-root,
+        .MuiOutlinedInput-root.Mui-focused {
+            background-color: $bgClr0;
+            border-radius: 5px;
+        }
+    }
+
+    .login-toggle-link,
+    .login-toggle-link:hover {
+        background-color: transparent;
+        padding: 0;
+    }
+
+    .btn-submit {
+        background: $bgClr5;
+
+        &:hover {
+            background: $bgClr9;
+        }
+    }
+}

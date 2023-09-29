@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
-import { Button, TextField, Typography, Grid, Link } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { Button, TextField, Link } from '@mui/material'
+import * as Yup from 'yup'
+import { login, signup } from '../store/actions/user.actions.js'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 
 export function LoginPage() {
     const [isSignup, setIsSignup] = useState(false)
+    const [errors, setErrors] = useState({})
     const [credentials, setCredentials] = useState({
         firstName: '',
         lastName: '',
@@ -11,36 +16,68 @@ export function LoginPage() {
         password: '',
     })
 
+    const loginSchema = Yup.object().shape({
+        username: Yup.string().required("Username is required").min(4, "Username should be at least 4 characters"),
+        password: Yup.string().required("Password is required").min(6, "Password should be at least 6 characters")
+    })
+
+    const signupSchema = Yup.object().shape({
+        firstName: Yup.string().required("First name is required"),
+        lastName: Yup.string().required("Last name is required"),
+        email: Yup.string().required("Email is required").email("Email is not valid"),
+        username: Yup.string().required("Username is required").min(4, "Username should be at least 4 characters"),
+        password: Yup.string().required("Password is required").min(6, "Password should be at least 6 characters")
+    })
+
+    const validate = async () => {
+        try {
+            if (isSignup) await signupSchema.validate(credentials)
+            else await loginSchema.validate(credentials)
+
+            setErrors({})
+            return true
+        } catch (error) {
+            setErrors({ [error.path]: error.message })
+            return false
+        }
+    }
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
         setCredentials(prevState => ({ ...prevState, [name]: value }))
     }
 
+    const navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (!(await validate())) return
         if (isSignup) {
-            const { firstName, lastName, email, username, password } = formData
             try {
-                console.log("Welcome user!");
+                await signup(credentials)
+                showSuccessMsg('Signup successful')
+                navigate('/toy')
             } catch (error) {
-                console.error("Signup error:", error);
+                showErrorMsg('Error signing up')
+                console.error(error)
             }
         } else {
-            const { username, password } = formData;
             try {
-                console.log("Welcome back user!")
+                await login(credentials)
+                showSuccessMsg('Welcome back!')
+                navigate('/toy')
             } catch (error) {
-                console.error("Login error:", error)
+                showErrorMsg('Error logging in')
+                console.error(error)
             }
         }
     }
 
     return (
-        <section className="login-page">
+        <section className="login-page flex">
             <form onSubmit={handleSubmit}>
                 {isSignup ? (
-                    <div>
-                        <div className="name-container">
+                    <div className='flex flex-column'>
+                        <div className="name-container flex flex-row">
                             <TextField
                                 variant="outlined"
                                 required
@@ -50,6 +87,8 @@ export function LoginPage() {
                                 name="firstName"
                                 autoComplete="fname"
                                 value={credentials.firstName}
+                                error={!!errors.firstName}
+                                helperText={errors.firstName}
                                 onChange={handleChange}
                             />
                             <TextField
@@ -61,6 +100,8 @@ export function LoginPage() {
                                 name="lastName"
                                 autoComplete="lname"
                                 value={credentials.lastName}
+                                error={!!errors.lastName}
+                                helperText={errors.lastName}
                                 onChange={handleChange}
                             />
                         </div>
@@ -73,6 +114,8 @@ export function LoginPage() {
                             name="email"
                             autoComplete="email"
                             value={credentials.email}
+                            error={!!errors.email}
+                            helperText={errors.email}
                             onChange={handleChange}
                         />
                         <TextField
@@ -84,6 +127,8 @@ export function LoginPage() {
                             name="username"
                             autoComplete="username"
                             value={credentials.username}
+                            error={!!errors.username}
+                            helperText={errors.username}
                             onChange={handleChange}
                         />
                         <TextField
@@ -94,12 +139,14 @@ export function LoginPage() {
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="current-password"
+                            autoComplete="off"
                             value={credentials.password}
+                            error={!!errors.password}
+                            helperText={errors.password}
                             onChange={handleChange}
                         />
-                        <div>
-                            <Button variant="contained" color="primary" type="submit">
+                        <div className='flex flex-row'>
+                            <Button variant="contained" color="primary" type="submit" className='btn-submit'>
                                 Signup
                             </Button>
                             <Link
@@ -113,7 +160,7 @@ export function LoginPage() {
                         </div>
                     </div>
                 ) : (
-                    <div>
+                    <div className='flex flex-column'>
                         <TextField
                             variant="outlined"
                             required
@@ -123,6 +170,8 @@ export function LoginPage() {
                             name="username"
                             autoComplete="username"
                             value={credentials.username}
+                            error={!!errors.username}
+                            helperText={errors.username}
                             onChange={handleChange}
                         />
                         <TextField
@@ -133,12 +182,14 @@ export function LoginPage() {
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="current-password"
+                            autoComplete="off"
                             value={credentials.password}
+                            error={!!errors.password}
+                            helperText={errors.password}
                             onChange={handleChange}
                         />
-                        <div>
-                            <Button variant="contained" color="primary" type="submit">
+                        <div className='flex flex-row'>
+                            <Button variant="contained" color="primary" type="submit" className='btn-submit'>
                                 Login
                             </Button>
                             <Link

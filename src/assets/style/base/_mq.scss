@@ -1,0 +1,30 @@
+/* Toys list */
+@media (max-width: 3000px) {
+    .toy-list-container {
+        max-width: 900px;
+    }
+
+    .toy-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .toy-list-container {
+        max-width: 800px;
+    }
+
+    .toy-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .toy-list-container {
+        max-width: 400px;
+    }
+
+    .toy-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

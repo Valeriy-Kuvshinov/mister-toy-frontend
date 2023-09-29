@@ -1,5 +1,6 @@
 import React from 'react'
 import { toyService } from '../services/toy.service.js'
+import { FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material'
 
 export function ToyFilter({ sort, onSetSort, filterBy, handleChange }) {
     const labels = toyService.getLabels()
@@ -13,73 +14,93 @@ export function ToyFilter({ sort, onSetSort, filterBy, handleChange }) {
         const updatedSort = { ...sort, asc: !sort.asc }
         onSetSort(updatedSort)
     }
+
     return (
         <section className="toy-filter">
-            <div className='filter-grid-one'>
-                <div className="search-filter-option">
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Search by toy name"
-                        name="name"
-                        value={filterBy.name}
-                        onChange={handleChange}
-                    />
-                </div>
-            </div>
-            <div className="filter-grid-two">
-                <div className="minPrice-filter-option">
-                    <label className="filter-label" htmlFor="minPrice">Min Price:</label>
-                    <input
-                        type="number"
-                        min={0}
-                        placeholder='0'
-                        id="minPrice"
-                        name="minPrice"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="inStock-filter-option">
-                    <label className="filter-label" htmlFor="inStock">In Stock:</label>
-                    <select id="inStock" name="inStock" value={filterBy.inStock || ''} onChange={handleChange}>
-                        <option value="">All</option>
-                        <option value={true}>Yes</option>
-                        <option value={false}>No</option>
-                    </select>
-                </div>
-            </div>
-            <div className='filter-grid-three'>
-                <div className="label-filter-option">
-                    <label className="filter-label" htmlFor="labels">Find by labels:</label>
-                    <select
+
+            <Box className='filter-grid-one'>
+                <TextField
+                    fullWidth
+                    id="name"
+                    label="Search by toy name"
+                    variant="outlined"
+                    name="name"
+                    value={filterBy.name}
+                    onChange={handleChange}
+                />
+            </Box>
+
+            <Box className="filter-grid-two">
+                <TextField
+                    type="number"
+                    id="minPrice"
+                    label="Min Price"
+                    variant="outlined"
+                    name="minPrice"
+                    InputProps={{ inputProps: { min: 0 } }}
+                    onChange={handleChange}
+                />
+                <TextField
+                    type="number"
+                    id="maxPrice"
+                    label="Max Price"
+                    variant="outlined"
+                    name="maxPrice"
+                    InputProps={{ inputProps: { min: 10 } }}
+                    onChange={handleChange}
+                />
+                <FormControl variant="outlined" fullWidth>
+                    <InputLabel htmlFor="inStock">In Stock</InputLabel>
+                    <Select id="inStock" name="inStock" value={String(filterBy.inStock) || ''} onChange={handleChange}>
+                        <MenuItem value="">All</MenuItem>
+                        <MenuItem value="true">Yes</MenuItem>
+                        <MenuItem value="false">No</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
+
+            <Box className='filter-grid-three'>
+                <FormControl variant="outlined" fullWidth className="full-height">
+                    <InputLabel htmlFor="labels">Find by labels</InputLabel>
+                    <Select
                         multiple
                         id="labels"
                         name="labels"
-                        size="4"
                         value={filterBy.labels || []}
                         onChange={handleChange}
+                        renderValue={(selected) => (
+                            <div className='flex flex-column'>
+                                {selected.map((value) => (
+                                    <span key={value}>{value}</span>
+                                ))}
+                            </div>
+                        )}
                     >
                         {labels.map((label, index) => (
-                            <option key={index} value={label}>{label}</option>
+                            <MenuItem key={index} value={label}>{label}</MenuItem>
                         ))}
-                    </select>
-                </div>
-            </div>
-            <div className='filter-grid-four'>
-                <div className="sort-filter-option">
-                    <label className="filter-label" htmlFor="sortBy">Sort By:</label>
-                    <select id="sortBy" name="sortBy" value={sort.by} onChange={(e) => handleSortChange(e.target.value)}>
-                        <option value="name">Name</option>
-                        <option value="price">Price</option>
-                        <option value="createdAt">Created</option>
-                    </select>
-                    <label className="filter-label" htmlFor="sortOrder">Order:</label>
-                    <select id="sortOrder" name="sortOrder" value={sort.asc ? 'asc' : 'desc'} onChange={handleToggleDirection}>
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
-                    </select>
-                </div>
-            </div>
+                    </Select>
+                </FormControl>
+            </Box>
+
+            <Box className='filter-grid-four'>
+                <FormControl variant="outlined" fullWidth>
+                    <InputLabel htmlFor="sortBy">Sort By</InputLabel>
+                    <Select id="sortBy" name="sortBy" value={sort.by} onChange={(e) => handleSortChange(e.target.value)}>
+                        <MenuItem value="name">Name</MenuItem>
+                        <MenuItem value="price">Price</MenuItem>
+                        <MenuItem value="createdAt">Created</MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl variant="outlined" fullWidth>
+                    <InputLabel htmlFor="sortOrder">Order</InputLabel>
+                    <Select id="sortOrder" name="sortOrder" value={sort.asc ? 'asc' : 'desc'} onChange={handleToggleDirection}>
+                        <MenuItem value="asc">Ascending</MenuItem>
+                        <MenuItem value="desc">Descending</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
+
         </section>
     )
 }

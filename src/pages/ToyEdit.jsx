@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { saveToy } from '../store/actions/toy.actions.js'
 import { toyService } from '../services/toy.service.js'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { TextField, Checkbox, Button, FormControlLabel, FormGroup } from '@mui/material'
+import toysImage from '../assets/img/toys1.jpeg'
 
 export function ToyEdit() {
     const labels = toyService.getLabels()
@@ -46,40 +49,68 @@ export function ToyEdit() {
         saveToy(toy)
             .then((savedToy) => {
                 navigate(`/toy/${savedToy._id}`)
+                showSuccessMsg('Toy saved successfully')
             })
             .catch((error) => {
                 console.error('Error saving toy:', error)
+                showErrorMsg('Error saving toy')
             })
     }
 
     return (
-        <div className='toy-edit'>
-            <form className="toy-edit-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="name">Toy Name:</label>
-                    <input id="name" type="text" name="name" value={toy.name} onChange={handleChange} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="price">Price:</label>
-                    <input id="price" type="number" name="price" value={toy.price} onChange={handleChange} />
+        <div className='toy-edit flex'>
+            <img src={toysImage} alt="Toys" />
+            <form className="toy-edit-form flex flex-column" onSubmit={handleSubmit}>
+                <div className="form-group flex flex-row">
+                    <TextField
+                        label="Toy Name"
+                        name="name"
+                        value={toy.name}
+                        onChange={handleChange}
+                    />
+
+                    <TextField
+                        label="Price"
+                        name="price"
+                        type="number"
+                        className="price-input"
+                        InputProps={{ inputProps: { min: 10 } }}
+                        value={toy.price}
+                        onChange={handleChange}
+                    />
+
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={toy.inStock}
+                                onChange={(e) => setToy({ ...toy, inStock: e.target.checked })}
+                                name="inStock"
+                            />
+                        }
+                        label="In Stock"
+                    />
                 </div>
                 <fieldset className="labels-fieldset">
                     <legend>Labels</legend>
-                    <div className="checkbox-group">
+                    <FormGroup className="checkbox-group">
                         {labels.map((label, index) => (
-                            <label key={index} className="checkbox-label">
-                                <input
-                                    type="checkbox"
-                                    value={label}
-                                    checked={toy.labels.includes(label)}
-                                    onChange={handleLabelChange}
-                                />
-                                {label}
-                            </label>
+                            <FormControlLabel
+                                key={index}
+                                control={
+                                    <Checkbox
+                                        value={label}
+                                        checked={toy.labels.includes(label)}
+                                        onChange={handleLabelChange}
+                                    />
+                                }
+                                label={label}
+                            />
                         ))}
-                    </div>
+                    </FormGroup>
                 </fieldset>
-                <button className="submit-btn" type="submit">{toyId ? 'Update' : 'Add Toy'}</button>
+                <Button className="submit-btn" type="submit" variant="contained" color="primary">
+                    {toyId ? 'Update 🧸' : 'Add Toy 🧸'}
+                </Button>
             </form>
         </div>
     )

@@ -1,0 +1,23 @@
+button {
+    cursor: pointer;
+    background: $bgClr5;
+    color: $bgClr0;
+    margin: 0.5em;
+    border: none;
+    padding: 0.5em 0.8em;
+    border-radius: 10px;
+
+    &:hover {
+        background: $bgClr9;
+        transition: .3s;
+    }
+}
+
+input {
+    background: $bgClr0;
+
+    &:focus {
+        background: $bgClr3;
+        transition: background-color 1s;
+    }
+}

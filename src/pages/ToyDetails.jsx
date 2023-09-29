@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { toyService } from '../services/toy.service.js'
+import toysImage from '../assets/img/toys1.jpeg'
 
 export function ToyDetails() {
     const { toyId } = useParams()
@@ -18,6 +19,7 @@ export function ToyDetails() {
 
     return (
         <div className='toy-details-wrapper'>
+            <img src={toysImage} />
             <div className="toy-details">
                 <div className="toy-header">
                     <h1>{name}</h1>

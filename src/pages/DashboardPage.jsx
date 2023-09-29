@@ -7,21 +7,15 @@ import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { toyService } from '../services/toy.service.js'
 ChartJS.register(ArcElement, CategoryScale, LineController, LinearScale
     , LineElement, PointElement, BarElement, Tooltip, Legend)
-import Accordion from '@mui/material/Accordion'
-import AccordionSummary from '@mui/material/AccordionSummary'
-import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { styled } from '@mui/material/styles'
-
-const NoPaddingAccordionDetails = styled(AccordionDetails)({
-    padding: 0,
-})
+import { DashboardInfo } from '../cmp/DashboardInfo.jsx'
 
 export function DashboardPage() {
     const [labelPrices, setLabelPrices] = useState({})
     const [inventoryByLabel, setInventoryByLabel] = useState({})
     const [lineChartData, setLineChartData] = useState({})
+    const [toys, setToys] = useState([])
+
     const filterBy = toyService.getDefaultFilter()
     const sort = toyService.getDefaultSort()
 
@@ -29,6 +23,7 @@ export function DashboardPage() {
         async function fetchData() {
             try {
                 const initialToys = await toyService.query(filterBy, sort)
+                setToys(initialToys)
 
                 // Calculate average prices per label
                 let labelPriceCount = {}
@@ -39,10 +34,11 @@ export function DashboardPage() {
                         labelPriceCount[label].count += 1
                     })
                 })
-                const avgLabelPrices = Object.entries(labelPriceCount).reduce((acc, [label, data]) => {
-                    acc[label] = data.sum / data.count
-                    return acc
-                }, {})
+
+                let avgLabelPrices = {}
+                Object.keys(labelPriceCount).forEach(label => {
+                    avgLabelPrices[label] = parseFloat((labelPriceCount[label].sum / labelPriceCount[label].count))
+                })
                 setLabelPrices(avgLabelPrices)
 
                 // Calculate inventory by label
@@ -65,7 +61,7 @@ export function DashboardPage() {
                 const values = [...Array(7)].map(() => Math.floor(Math.random() * 1000))
                 setLineChartData({ dates, values })
             } catch (error) {
-                console.error("Error fetching data:", error);
+                console.error("Error fetching data:", error)
             }
         }
         fetchData()
@@ -75,17 +71,16 @@ export function DashboardPage() {
         }
     }, [])
     return (
-        <main className="dashboard-container">
-            <div className='dashboard-container-header'>
+        <main className="dashboard-page flex flex-column">
+            <div className='dashboard-container-header flex flex-column'>
                 <h1>Welcome dear manager!</h1>
-                <h2>Here is our most updated business performance:</h2>
+                <h2>Here is our most updated business statistics:</h2>
             </div>
+            <section className='dashboard-container'>
+                <DashboardInfo initialToys={toys} lineChartData={lineChartData} avgLabelPrices={labelPrices} inventoryByLabel={inventoryByLabel} />
 
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography>Current average price per label</Typography>
-                </AccordionSummary>
-                <NoPaddingAccordionDetails>
+                <div className="chart-section">
+                    <Typography variant="h6">Current average price per label</Typography>
                     <Bar
                         data={{
                             labels: Object.keys(labelPrices),
@@ -96,14 +91,9 @@ export function DashboardPage() {
                             }]
                         }}
                     />
-                </NoPaddingAccordionDetails>
-            </Accordion>
-
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography>Current amount of toys in-stock per label</Typography>
-                </AccordionSummary>
-                <NoPaddingAccordionDetails>
+                </div>
+                <div className="chart-section">
+                    <Typography variant="h6">Current amount of toys in-stock</Typography>
                     <Doughnut
                         data={{
                             labels: Object.keys(inventoryByLabel),
@@ -113,27 +103,22 @@ export function DashboardPage() {
                             }]
                         }}
                     />
-                </NoPaddingAccordionDetails>
-            </Accordion>
-
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography>Weekly overall toy sales</Typography>
-                </AccordionSummary>
-                <NoPaddingAccordionDetails>
+                </div>
+                <div className="chart-section">
+                    <Typography variant="h6">Daily overall toy sales</Typography>
                     <Line
                         data={{
                             labels: lineChartData.dates,
                             datasets: [{
-                                label: 'Random Data',
+                                label: 'Profits in $',
                                 data: lineChartData.values,
                                 borderColor: '#3e95cd',
                                 fill: false,
                             }]
                         }}
                     />
-                </NoPaddingAccordionDetails>
-            </Accordion>
+                </div>
+            </section>
         </main>
     )
 }

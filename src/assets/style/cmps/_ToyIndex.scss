@@ -1,0 +1,27 @@
+.toy-store {
+    background: radial-gradient(circle at center, $bgClr3, $bgClr10);
+    padding: 20px;
+    color: $bgClr0;
+    min-height: 100vh;
+
+    &-header {
+        font-size: 2.5em;
+        color: $bgClr0;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .toy-filter-container {
+        max-width: 820px;
+        margin-bottom: 1em;
+        align-self: center;
+        margin-left: 1.5em;
+    }
+
+    .toy-list-container {
+        padding: 1em;
+        width: 100%;
+        margin: auto;
+    }
+}

@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: $gray3;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: .5em 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: .5em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+
+  &.active {
+    text-decoration: overline;
+  }
+}
+
+// Don't stretch my Media
+img,
+embed,
+video,
+object {
+  max-width: 100%;
+}
+
+// Simple and useful CSS Debugging Technique
+.debug * {
+  outline: 1px solid gold;
+}

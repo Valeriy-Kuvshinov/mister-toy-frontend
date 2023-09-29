@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { pexelsService } from '../services/pexels.service'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import toys1Image from '../assets/img/toys3.jpg'
 
 export function ToyPreview({ toy, onDelete }) {
@@ -14,8 +15,14 @@ export function ToyPreview({ toy, onDelete }) {
         fetchImage()
     }, [toy.name])
 
-    const handleDelete = () => {
-        onDelete(toy._id)
+    const handleDelete = async () => {
+        try {
+            await onDelete(toy._id)
+            showSuccessMsg('Toy successfully deleted!')
+        } catch (err) {
+            console.error('error deleting: ', err)
+            showErrorMsg('Failed to delete the toy')
+        }
     }
 
     return (

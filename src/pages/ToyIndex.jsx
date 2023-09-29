@@ -27,8 +27,10 @@ export function ToyIndex() {
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
+        
         if (target.type === 'checkbox') value = target.checked
         if (target.type === 'select-multiple') value = Array.from(target.selectedOptions, (option) => option.value)
+        
         setFilterBy({ ...filterBy, [field]: value })
     }
 
@@ -37,8 +39,8 @@ export function ToyIndex() {
     }
 
     return (
-        <main className="toy-store">
-            <h2 className="toy-store-header">Find your next toy for the family!</h2>
+        <main className="toy-store flex flex-column">
+            <h2 className="toy-store-header">Find your next joy for the family!</h2>
             <div className="toy-filter-container">
                 <ToyFilter sort={sort} onSetSort={onSetSort} filterBy={filterBy} handleChange={handleChange} />
             </div>

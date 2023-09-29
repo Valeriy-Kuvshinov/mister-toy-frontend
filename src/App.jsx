@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import './assets/style/main.css'
+import './assets/style/main.scss'
 
 import { store } from './store/store'
 import { ToyIndex } from './pages/ToyIndex.jsx'
@@ -11,6 +11,7 @@ import { ToyEdit } from './pages/ToyEdit.jsx'
 import { AboutPage } from './pages/AboutPage.jsx'
 import { DashboardPage } from './pages/DashboardPage.jsx'
 import { LoginPage } from './pages/LoginPage.jsx'
+import { UserMsg } from './cmp/UserMsg.jsx'
 
 export function App() {
   return (
@@ -18,6 +19,7 @@ export function App() {
       <Router>
         <section className="app">
           <AppHeader />
+          <UserMsg />
           <main>
             <Routes>
               <Route element={<HomePage />} path="/" />

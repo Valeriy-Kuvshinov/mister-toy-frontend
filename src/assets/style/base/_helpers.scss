@@ -1,0 +1,33 @@
+.flex {
+    display: flex;
+
+    &.flex-column {
+        flex-direction: column;
+    }
+
+    &.flex-row {
+        flex-direction: row;
+    }
+}
+
+// list helpers
+.clean-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+// font awesome
+.fa {
+    font-family: fa;
+}
+
+// height & width
+
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}

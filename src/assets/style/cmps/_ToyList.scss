@@ -1,0 +1,48 @@
+.toy-list {
+    display: grid;
+    gap: 20px;
+    list-style-type: none;
+    margin: auto;
+}
+
+.toy-card {
+    background: radial-gradient(circle at center, $bgClr8, $bgClr11);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    max-width: 250px;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    h3 {
+        font-size: 1.2em;
+        color: $fontClr;
+        display: inline;
+    }
+
+    p {
+        color: $bgClr9;
+        margin-top: 1em;
+        font-weight: bold;
+    }
+
+    .toy-card-actions {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .toy-image {
+        height: 150px;
+        border-radius: 30px;
+        width: 100%;
+    }
+
+    button {
+        margin-top: 1em;
+    }
+}
